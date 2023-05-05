@@ -25,7 +25,8 @@ async def on_ready():
     init(autoreset=True)
 
     # Initialize the status of the bot in the presence
-    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Activity(type=nextcord.ActivityType.playing, name="...loading"))
+    # Modify "watching" with other presence if needed, eg: playing, listening and watching
+    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Activity(type=nextcord.ActivityType.watching, name="...loading"))
 
 
     # Check if you have configured the discord server id
@@ -54,12 +55,13 @@ async def on_ready():
 
 
     print(Style.NORMAL + Fore.LIGHTMAGENTA_EX + "╔═══════════════════╗")
-    print(Style.NORMAL + Fore.GREEN + "Name: " + Fore.RESET + Fore.RED + "MCStatusBot")
-    print(Style.NORMAL + Fore.GREEN + "Version: " + Fore.RESET + Fore.RED + "v1.0")
+    print(Style.NORMAL + Fore.GREEN + "Name: " + Fore.RESET + Fore.RED + "ReisCipher MC Status Bot")
+    print(Style.NORMAL + Fore.GREEN + "Version: " + Fore.RESET + Fore.RED + "v2.0")
     print(Style.NORMAL + Fore.GREEN + "Refresh Time: " + Fore.RESET + Fore.RED + str(config["refresh_time"]) + " seconds")
     print(Style.NORMAL + Fore.GREEN + "Bot Status: " + Fore.RESET + Fore.RED + "Online")
     print(Style.NORMAL + Fore.GREEN + "Enabled Cogs: " + Fore.RESET + Fore.RED + str(enabled_cogs.replace('.py', '')))
-    print(Style.NORMAL + Fore.GREEN + "Support: " + Fore.RESET + Fore.RED + "https://discord.superkali.me")
+    print(Style.NORMAL + Fore.GREEN + "Made By: " + Fore.RESET + Fore.RED + "SuperKali")
+    print(Style.NORMAL + Fore.GREEN + "Recoded By: " + Fore.RESET + Fore.RED + "ReisCipher")
     print(Style.NORMAL + Fore.LIGHTMAGENTA_EX + "╚═══════════════════╝")
 
 
@@ -71,8 +73,11 @@ async def update_servers_status():
             channel_message = server_id.get_channel(config['channel_status_id'])
             if channel_message is not None:
 
-                txt = nextcord.Embed(title=config['message_title'], description=f"{config['message_description']}\n", colour=nextcord.Colour.orange())
-
+                txt = nextcord.Embed(title=config['message_title'], description=f"{config['message_description']}", colour=nextcord.Colour.purple())
+                
+                # Code below is for server details as in config file
+                txt.add_field(name=config["message_server_details"], value=config["message_server_details2"], inline=False)
+                
                 with open('data.json') as data_file:
                     data = json.load(data_file)
 
@@ -85,7 +90,7 @@ async def update_servers_status():
                     await pinger_message.edit(embed=checking)
 
                 except nextcord.errors.NotFound:
-                    return print(Style.NORMAL + Fore.RED + "[MCStatusBot] " + Fore.RESET + Fore.CYAN + f"The bot is not configured yet.. missing the command {config['bot_prefix']}createstatusmsg on the text channel")
+                    return print(Style.NORMAL + Fore.RED + "[ReisCipher] " + Fore.RESET + Fore.CYAN + f"The bot is not configured yet.. missing the command {config['bot_prefix']}createstatusmsg on the text channel")
                     
 
                 for servers in data_list["servers_to_ping"]:
@@ -93,21 +98,21 @@ async def update_servers_status():
                         try:
                             if servers["is_bedrock"]:
                                 check = BedrockServer.lookup(f"{servers['server_ip']}:{servers['port']}").status().players_online
-                                txt.add_field(name=servers['server_name'], value=f"🟢 ONLINE ({check} players)", inline=False)
+                                txt.add_field(name=servers['server_name'], value=f"<a:bakaonline:1103995214110146571> ONLINE ({check} players)", inline=False)
                                 count_all_servers[servers['server_name']] = {"online": check, "count_on_presence": servers["count_on_presence"], "status": True}
                             else:
                                 check = JavaServer.lookup(f"{servers['server_ip']}:{servers['port']}").status().players.online
-                                txt.add_field(name=servers['server_name'], value=f"🟢 ONLINE ({check} players)", inline=False)  
+                                txt.add_field(name=servers['server_name'], value=f"<a:bakaonline:1103995214110146571> ONLINE ({check} players)", inline=False)  
                                 count_all_servers[servers['server_name']] = {"online": check, "count_on_presence": servers["count_on_presence"], "status": True}
                         except:
-                            txt.add_field(name=servers['server_name'], value=f"🔴 OFFLINE", inline=False)
+                            txt.add_field(name=servers['server_name'], value=f"<a:bakaoffline:1103995205490847826> OFFLINE", inline=False)
                             count_all_servers[servers['server_name']] = {"online": 0, "count_on_presence": servers["count_on_presence"], "status": False}
                     else:
-                        txt.add_field(name=servers['server_name'], value=f"🟠 MAINTENANCE", inline=False)
+                        txt.add_field(name=servers['server_name'], value=f"<a:bakastandby:1103995210112966707> MAINTENANCE", inline=False)
 
                 server_list.close()
-
-                txt.add_field(name=config["message_field"], value=config["message_field_link"], inline=False)
+                # Code below is for website details as in config file
+                txt.add_field(name=config["message_website_details"], value=config["message_website_details2"], inline=False)      
 
                 txt.set_footer(text=config["message_footer"].format(date=time.strftime('%d/%m/%y'), time=time.strftime('%H:%M:%S')))
 
@@ -122,7 +127,7 @@ async def update_servers_status():
             print(f"[{time.strftime('%d/%m/%y %H:%M:%S')}] I could not find the indicated discord server.")
             return 0
     else:            
-        await client.change_presence(status=nextcord.Status.idle, activity=nextcord.Activity(type=nextcord.ActivityType.playing, name="🟠 Maintenance"))
+        await client.change_presence(status=nextcord.Status.idle, activity=nextcord.Activity(type=nextcord.ActivityType.watching, name="🟠 Maintenance"))
 
 async def update_presence_status():
     servers = count_all_servers.values()
@@ -131,7 +136,7 @@ async def update_presence_status():
         if value.get("count_on_presence", False):
             status.append(int(value.get('online', 0)))
 
-    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Activity(type=nextcord.ActivityType.playing, name=config["presence_name"].format(players=sum(status))))
+    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=config["presence_name"].format(players=sum(status))))
     count_all_servers.clear()
 
 async def send_console_status():
@@ -140,9 +145,9 @@ async def send_console_status():
     for value in servers:
         status.append(int(value.get("status")))
             
-    print(Style.NORMAL + Fore.RED + "[MCStatusBot] " + Fore.RESET + Fore.CYAN + f"Current Status of Servers:")
-    print(Style.NORMAL + Fore.RED + "[MCStatusBot] " + Fore.RESET + Fore.CYAN + f"{status.count(True)} Online servers")
-    print(Style.NORMAL + Fore.RED + "[MCStatusBot] " + Fore.RESET + Fore.CYAN + f"{status.count(False)} Offline servers")
+    print(Style.NORMAL + Fore.RED + "[ReisCipher] " + Fore.RESET + Fore.CYAN + f"Current Status of Servers:")
+    print(Style.NORMAL + Fore.RED + "[ReisCipher] " + Fore.RESET + Fore.CYAN + f"{status.count(True)} Online servers")
+    print(Style.NORMAL + Fore.RED + "[ReisCipher] " + Fore.RESET + Fore.CYAN + f"{status.count(False)} Offline servers")
 
 scheduler = AsyncIOScheduler()
 scheduler.add_job(update_servers_status, "interval", seconds=config["refresh_time"])
