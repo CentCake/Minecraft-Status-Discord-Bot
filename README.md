@@ -2,7 +2,7 @@
 <h4 align="center">ReisCipher Minecraft Server Status Discord Bot. Forked from MCStatusBot by SuperKali, Made with Python</h3>
 
 
-![Image](https://i.ibb.co/G2f8Rcb/ReikaMC.png)
+![Image](https://i.ibb.co/JypLwYP/ReikaMC.png)
 
 
 ### About
