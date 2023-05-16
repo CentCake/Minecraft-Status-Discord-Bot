@@ -111,8 +111,9 @@ async def update_servers_status():
                         txt.add_field(name=servers['server_name'], value=f"<a:bakastandby:1103995210112966707> MAINTENANCE", inline=False)
 
                 server_list.close()
-                # Code below is for website details as in config file
-                txt.add_field(name=config["message_website_details"], value=config["message_website_details2"], inline=False)      
+                # Code below is for website details as in config file  
+                txt.add_field(name=config["message_support"], value=config["message_support2"], inline=False)
+                #txt.add_field(name=config["message_website_details"], value=config["message_website_details2"], inline=False) //disabled, delete comment tag to enable
 
                 txt.set_footer(text=config["message_footer"].format(date=time.strftime('%d/%m/%y'), time=time.strftime('%H:%M:%S')))
 
@@ -152,6 +153,5 @@ async def send_console_status():
 scheduler = AsyncIOScheduler()
 scheduler.add_job(update_servers_status, "interval", seconds=config["refresh_time"])
 scheduler.start()
-
 
 client.run(bot_token)
