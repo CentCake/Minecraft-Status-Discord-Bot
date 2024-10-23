@@ -98,17 +98,17 @@ async def update_servers_status():
                         try:
                             if servers["is_bedrock"]:
                                 check = BedrockServer.lookup(f"{servers['server_ip']}:{servers['port']}").status().players_online
-                                txt.add_field(name=servers['server_name'], value=f"<a:bakaonline:1103995214110146571> ONLINE ({check} players)", inline=False)
+                                txt.add_field(name=servers['server_name'], value=f"<a:HX_Online:1271869854021845184> ONLINE ({check} players)", inline=False)
                                 count_all_servers[servers['server_name']] = {"online": check, "count_on_presence": servers["count_on_presence"], "status": True}
                             else:
                                 check = JavaServer.lookup(f"{servers['server_ip']}:{servers['port']}").status().players.online
-                                txt.add_field(name=servers['server_name'], value=f"<a:bakaonline:1103995214110146571> ONLINE ({check} players)", inline=False)  
+                                txt.add_field(name=servers['server_name'], value=f"<a:HX_Online:1271869854021845184> ONLINE ({check} players)", inline=False)  
                                 count_all_servers[servers['server_name']] = {"online": check, "count_on_presence": servers["count_on_presence"], "status": True}
                         except:
-                            txt.add_field(name=servers['server_name'], value=f"<a:bakaoffline:1103995205490847826> OFFLINE", inline=False)
+                            txt.add_field(name=servers['server_name'], value=f"<a:HX_Offline:1271869857041875025> OFFLINE", inline=False)
                             count_all_servers[servers['server_name']] = {"online": 0, "count_on_presence": servers["count_on_presence"], "status": False}
                     else:
-                        txt.add_field(name=servers['server_name'], value=f"<a:bakastandby:1103995210112966707> MAINTENANCE", inline=False)
+                        txt.add_field(name=servers['server_name'], value=f"<a:HX_Standby:1271869833180610683> MAINTENANCE", inline=False)
 
                 server_list.close()
                 # Code below is for website details as in config file  

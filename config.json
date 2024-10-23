@@ -1,20 +1,20 @@
 {
-    "bot_token": "Bot-Token",
+    "bot_token": "bot-token",
     "bot_prefix": "$",
     "is_maintenance_status": false,
     "owner_id": Owner-ID,
 
-    "message_title": "<a:bakaloading:1103999666972004373>  ReikaMC Server Status  <a:bakaloading:1103999666972004373>",
+    "message_title": "<a:HX_Loading:1271869864520188036>  BakaCraft Server Status  <a:HX_Loading:1271869864520188036>",
     "message_description": "_Join us now, please navigate to support channel for assistance_",
 
     "message_server_details": "<a:bakadiamond:1102059462950391839>  **Server Details**  <a:bakadiamond:1102059462950391839>",
-    "message_server_details2": "<a:bakarrow:1102041887063412848> Name : ReikaMC\n <a:bakarrow:1102041887063412848> IP Address : mc.bakacrew.xyz\n <a:bakarrow:1102041887063412848> Server Port : 25507",
+    "message_server_details2": "<a:HX_ArrowRB:1271869885776924722> Name : BakaCraft\n<a:HX_ArrowRB:1271869885776924722> IP Address : baka.hexareis.com\n<a:HX_ArrowRB:1271869885776924722> Server Port : 19132",
     
-    "message_website_details": "\n\n **<:bakawebsite:1103998624578408578> Our Website :**",
-    "message_website_details2": "https://bakacrew.xyz",
+    "message_website_details": "\n\n **<:HX_Website:1271870424128422069> Our Website :**",
+    "message_website_details2": "https://hexareis.com/bakacrew",
     
-    "message_support": "\n\n **<:bakawebsite:1103998624578408578> Support / Whitelist :**",
-    "message_support2": "<#1107946628612104322>",
+    "message_support": "\n\n **<:HX_Website:1271870424128422069> Support & Whitelist :**",
+    "message_support2": "<#1107946628612104322> or /whitelist request",
 
     "message_footer": "🕐 Last update on {date} at {time}",
 
@@ -22,16 +22,16 @@
 
     "presence_name": "{players} online",
 
-    "server_id": your-server-id,
-    "channel_status_id": your-status-channel-id,
+    "server_id": DC-server-ID,
+    "channel_status_id": channel-ID,
 
     "refresh_time": 30,
 
     "servers_to_ping": [
         {
-            "server_name": "\n\n <a:bakastatus:1104017784037445633> **Server Status** :",
-            "server_ip": "mc.bakacrew.xyz",
-            "port": "25507",
+            "server_name": "\n\n <a:HX_Status:1271869829938286665> **Server Status** :",
+            "server_ip": "172.18.0.3",
+            "port": "19132",
             "is_bedrock": true,
             "count_on_presence": true,
             "is_maintenance": false
